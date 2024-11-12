@@ -43,6 +43,10 @@ def generate_temperature_graph(weather_data):
     # Parse hourly temperature data
     times = weather_data['hourly']['time'][:24]  # Take data for the next 24 hours
     temperatures = weather_data['hourly']['temperature_2m'][:24]
+    humidity = weather_data['hourly']['relative_humidity_2m'][:24]
+    precipitation = weather_data['hourly']['precipitation_probability'][:24]
+    visibility = weather_data['hourly']['visibility'][:24]
+
     time_labels = [datetime.datetime.fromisoformat(time).strftime('%H:%M') for time in times]
 
     # Plot temperature graph
@@ -53,6 +57,44 @@ def generate_temperature_graph(weather_data):
     plt.ylabel('Temperature (°C)')
     plt.title('Temperature Forecast for the Next 24 Hours')
     plt.tight_layout()
+    graph_filename = './static/temperature_plot.png'
+    plt.savefig(graph_filename)
+
+    # Humidity Graph
+    plt.figure(figsize=(10, 5))
+    plt.plot(time_labels, humidity, marker='o', linestyle='-', color='g', label='Humidity (%)')
+    plt.xticks(rotation=45)
+    plt.xlabel('Time (24 hours)')
+    plt.ylabel('Relative Humidity (%)')
+    plt.title('Humidity Forecast for the Next 24 Hours')
+    plt.tight_layout()
+    plt.show()
+    graph_filename = './static/humidity_plot.png'
+    plt.savefig(graph_filename)
+
+    # Precipitation Probability Graph
+    plt.figure(figsize=(10, 5))
+    plt.plot(time_labels, precipitation, marker='o', linestyle='-', color='purple', label='Precipitation Probability (%)')
+    plt.xticks(rotation=45)
+    plt.xlabel('Time (24 hours)')
+    plt.ylabel('Precipitation Probability (%)')
+    plt.title('Precipitation Probability for the Next 24 Hours')
+    plt.tight_layout()
+    plt.show()
+    graph_filename = './static/precipitation_plot.png'
+    plt.savefig(graph_filename)
+
+    # Visibility Graph
+    plt.figure(figsize=(10, 5))
+    plt.plot(time_labels, visibility, marker='o', linestyle='-', color='orange', label='Visibility (km)')
+    plt.xticks(rotation=45)
+    plt.xlabel('Time (24 hours)')
+    plt.ylabel('Visibility (km)')
+    plt.title('Visibility Forecast for the Next 24 Hours')
+    plt.tight_layout()
+    plt.show()
+    graph_filename = './static/visibility_plot.png'
+    plt.savefig(graph_filename)
 
     # Save plot as image
     # Ensure the static directory exists
@@ -60,6 +102,9 @@ def generate_temperature_graph(weather_data):
     if not os.path.exists('static'):
         os.mkdir('static')
     graph_filename = './static/temperature_plot.png'
+    graph_filename = './static/humidity_plot.png'
+    graph_filename = './static/precipitation_plot.png'
+    graph_filename = './static/visibility_plot.png'
     plt.savefig(graph_filename)
     plt.close()
     
